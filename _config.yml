@@ -1,57 +1,49 @@
-# Site settings
-title: Hanuman
-description: Hanuman is a minimal yet powerful Jekyll theme for your blogs and websites.
-cover: assets/images/radhakrishna.jpg
-logo: assets/images/logo.png
-favicon: assets/images/favicon.png
-baseurl: "/hanuman/" # the subpath of your site, e.g. /blog/ or / for root
-url: "https://samanyougarg.com" # the base hostname & protocol for your site
-paginate:	5 # The number of posts to show per page on your homepage
+# Basic
+title: Vno Jekyll
+subtitle: A blog-orientation theme for Jekyll
+welcome_message: <a href="https://github.com/onevcat/vno-jekyll" target="_blank">Download the theme</a>
+description: Vno Jekyll is a port of my Ghost theme vno.
+creator: <a href="http://onev.cat">@onevcat</a>
 
+url: "http://vno.onevcat.com"
+
+permalink: /:year/:month/:title/
+
+# Format
+highlighter: rouge
+
+# supported colors: blue, green, purple, red, orange or slate. If you need clear, leave it empty.
+cover_color: red
+
+# The blog button should not be removed.
+blog_button:
+    title: Blog
+    description: Visit blog
+
+# Navigation buttons in the front page.
+nav:
+    - {title: Projects, description: My Projects, url: 'http://project.onevcat.com'}
+    # - {title: Another Button, description: A button, url: 'http://example.com'}
+
+# Pagination
+gems: [jekyll-paginate]
+paginate: 10
+paginate_path: "page/:num/"
+
+# Comment
+comment:
+    disqus: vno-jekyll
+    # duoshuo: 
+    
 # Social
-facebook: facebook
-twitter: twitter
-github:  github
-
-#Additional Pages
-about: about
-contact: contact
-privacy-policy: privacy-policy
-
-
-permalink: /:title
-
+social:
+    weibo: onevcat
+    github: onevcat
+    twitter: onevcat
+    gplus: 107108267983477358170
+    mail: onev@onevcat.com
 
 # Google Analytics
-analytics_id: ""
-
-# Build settings
-markdown: kramdown
-
-kramdown:
-  parse_block_html: true
-
-plugins:
-  - jekyll-paginate
-
-
-# Settings for rake task
-safe: False
-lsi: False
-username: samanyougarg #github username
-repo: hanuman #github repository
-branch: master #branch
-relative_source: ../hanuman/ #source directory
-destination: ../hanuman-pages/ #destination directory
-production_url:  https://samanyougarg.com/
-source_url:  https://github.com/samanyougarg/hanuman #source repository url
-
-exclude:
-  - README.md
-  - Rakefile
-  - Gemfile
-  - Gemfile.lock
-  - changelog.md
-  - "*.Rmd"
-  - vendor
-  - .travis.yml
+ga:
+    # id: your_ga_id
+    # host: your_host
