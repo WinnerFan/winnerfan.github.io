@@ -3,19 +3,9 @@
     <div class="panel-main__inner panel-inverted">
       <div class="panel-main__content">
 
-        <!--
-        <a href="/#blog" title="前往 {{ site.title }} 的主页" class="blog-button">
-          <img src="/assets/images/profile.png" width="80" alt="{{ site.title }} logo" class="panel-cover__logo logo" />
-        </a>
-        -->
         <img src="/assets/images/profile.png" width="80" alt="{{ site.title }} logo" class="panel-cover__logo logo" />
 
-        <h1 class="panel-cover__title panel-title">
-          <!--
-            <a href="/#blog" title="link to homepage for {{ site.title }}" class="blog-button">{{ site.title }}</a>
-          -->
-          {{ site.title }}
-        </h1>
+        <h1 class="panel-cover__title panel-title">{{ site.title }}</h1>
 
         {% if site.subtitle %}
           <span class="panel-cover__subtitle panel-subtitle">{{site.subtitle}}</span>

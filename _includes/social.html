@@ -1,10 +1,10 @@
-<nav class="cover-navigation navigation--social">
+﻿<nav class="cover-navigation navigation--social">
   <ul class="navigation">
 
   {% if site.social.weibo %}
   <!-- Weibo -->
   <li class="navigation__item">
-    <a href="http://weibo.com/{{site.social.weibo}}" title="@{{site.social.weibo}} 的微博" target="_blank">
+    <a href="http://weibo.com/{{site.social.weibo}}" title="Get to know me" target="_blank">
       <i class='social fa fa-weibo'></i>
       <span class="label">Weibo</span>
     </a>
@@ -41,6 +41,7 @@
   </li>
   {% endif %}
 
+  {% if site.social.rss %}
   <!-- RSS -->
   <li class="navigation__item">
     <a href="/feed.xml" rel="author" title="RSS" target="_blank">
@@ -48,6 +49,7 @@
       <span class="label">RSS</span>
     </a>
   </li>
+  {% endif %}
 
   {% if site.social.mail %}
   <!-- Email -->
