@@ -3,11 +3,11 @@ title: Winner Fan
 subtitle: A Blog From Fan
 welcome_message: <a href="https://github.com/onevcat/vno-jekyll" target="_blank">Download the theme</a>
 description: From Beginning.
-creator: <a href="http://onev.cat">@onevcat</a>
+#creator: <a href="http://onev.cat">@onevcat</a>
 
-url: "http://vno.onevcat.com"
+#url: "http://vno.onevcat.com"
 
-permalink: /:year/:month/:title/
+#permalink: /:year/:month/:title/
 
 # Format
 highlighter: rouge
@@ -17,7 +17,7 @@ cover_color: orange
 
 # The blog button should not be removed.
 blog_button:
-    title: blog
+    title: Blog
     description: Visit blog
 
 # Navigation buttons in the front page.
