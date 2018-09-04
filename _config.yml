@@ -32,7 +32,7 @@ paginate_path: "page/:num/"
 
 # Comment
 comment:
-    # disqus: vno-jekyll
+    disqus: vno-jekyll
     # duoshuo: 
     
 # Social
@@ -41,7 +41,7 @@ social:
     # github: onevcat
     # twitter: onevcat
     # gplus: 107108267983477358170
-    # mail: onev@onevcat.com
+    mail: 670430329@qq.com
 
 # Google Analytics
 ga:
