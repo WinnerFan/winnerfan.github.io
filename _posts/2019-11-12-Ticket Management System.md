@@ -26,20 +26,20 @@ JDK使用Redis，完成增删改查
     - testWhileIdle：空闲资源是否监控 
 - JedisPool
     - pool.getResource()：得到连接Jedis
-    - jedis.pinelined()：开启管道，顺序，但**不是原子操作**(允许个别失败)
+    - jedis.pinelined()：开启管道，顺序，但**不是原子操作允许失败，而且允许穿插命令**
     - pipeline.hgetAll(key)：操作(通过管道)
     - pipeline.syncAndReturnAll()：执行管道
     - pipeline.close：关闭管道
     - jedis.get(key)：操作(不通过管道)，是**原子操作**
     - jedis.close：关闭连接
-- lua脚本
-    - jedis.evalsha(sha, keys, values)：sha为String，keys和values为list，是**原子操作**
+- lua脚本：两种方式，**非原子操作中间错误则退出lua脚本，但无其他命令穿插**
+	- jedis.eval(lua, keys, values)
+    - jedis.evalsha(jedis.scriptLoad(lua), keys, values)：jedis.scriptLoad(lua)得到sha值，keys和values为list
     - **Twemproxy**：twitter开源，第一个key进行分片操作
     - lua脚本中redis.call('set', key, val);
 
 ### Bean类
-set所有值
-
+- set所有值
 ```
 public static Object mapToBean (Map<String, String> map, Class<?> clazz) {
     if(map == null)
@@ -50,12 +50,11 @@ public static Object mapToBean (Map<String, String> map, Class<?> clazz) {
 	    for(Field field : fields) {
 	        if(map.get(field.getName()) == null)
 	            countinue;
-            //field.getModifiers();//会累加public=1, private=2, protected=4, static=8, final=16, synchronized=32, volatile=64, transient=128, native=256, interface=512, abstract=1024, strict=2048
-	        field.setAccesible(true);//访问private字段
+            // field.getModifiers(); // 得到修饰词，可累加
+	        field.setAccesible(true);// 访问private字段
 	        field.set(obj, map.get(field.getName()));
 	    }
     }
     return obj;
 }
 ```
-
