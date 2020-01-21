@@ -25,7 +25,3 @@ tags: Computer System
 - 文件  
 I/O设备的抽象；字节序列
 
-
-[jekyll-docs]: http://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
