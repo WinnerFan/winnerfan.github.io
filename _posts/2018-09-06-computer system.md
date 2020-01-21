@@ -1,19 +1,21 @@
 ---
 layout: post
-title: computer system
+title: Computer System
 date: 2018-09-06 10:20:00.000000000 +08:00
-tags: computer system
+tags: Computer System
 ---
    
-#### 硬件组成 
+## 硬件组成 
 - 总线
 - I/O设备
 - 主存
 - 处理器
-#### 操作系统功能
+- 
+## 操作系统功能
 - 防止硬件被失控的应用程序滥用
 - 向应用程序提供简单一致的机制控制硬件
-#### 操作系统概念
+- 
+## 操作系统概念
 - 虚拟机  
 对计算机的抽象；包括操作系统、处理器和程序
 - 进程  
