@@ -1,6 +1,11 @@
-### Python
+---
+layout: post
+title: Python Basic
+tags: Python
+---
+## Python
 
-#### 字符串和数字
+### 字符串和数字
 
 方法|作用|备注
 :-:|:-:|:-:
@@ -24,7 +29,7 @@
 - 字符串输入a = input("msg")，a非msg而是输入的值
 - 命名：**类名驼峰，每个单词首字母大写；实例名和模块名小写格式，下划线连接**
 
-#### 列表，a=[]
+### 列表，a=[]
 
 方法|作用|备注
 :-:|:-:|:-:
@@ -51,7 +56,7 @@ or|或|多个条件
 - 循环判断，注意**冒号**
 ```
 # 判断非空
-if a：
+if a:
 	for aloop in a:
 		if aloop == 'aa':
 			print(aloop)
@@ -87,7 +92,7 @@ a = (3,5)
 # a[0] = 3
 ```
 
-#### 字典，a={}
+### 字典，a={}
 
 - 增删改查
 ```
@@ -101,28 +106,29 @@ a['key1']
 for key, val in a.items():
 	print(key+": "+val)
 
-# sorted(a.keys())排序后
+\# sorted(a.keys())排序后
 for key in a.keys():
 	print(key)
 
-# set(a.values())去重后
+\# set(a.values())去重后
 for val in a.values():
 	print(val)
 ```
 
-#### 函数
+### 函数
+
 - 固定参数，具有初始值时调用参数个数可调，副本传递
 ```
-# 默认值为b，不能有空格
+\# 默认值为b，不能有空格
 def fun(grade, name='b'):
 	print("Hello "+grade+name)
 	person = {'name':name, 'grade':grade}
 	return person
-# 先列出没有默认值，后列出可选参数即有默认值的
+\# 先列出没有默认值，后列出可选参数即有默认值的
 person1 = fun('1', 'a')
 person2 = fun('2')
 
-# 禁止修改列表时，可以传递列表副本
+\# 禁止修改列表时，可以传递列表副本
 fun(a[:])
 ```
 - 随机参数
@@ -138,14 +144,14 @@ def user_profile(first, last, **user_info)
 user_profile('a','b',location='c',field='d')
 ```
 - 导入模块、函数或类
-	- import filename as f 
+	- import filename as f<br>
 	  f.function()
-	- from filename import function as fun
+	- from filename import function as fun<br>
 	  fun()
-    - from filename import *
+    - from filename import *<br>
       function()
 
-#### 类
+### 类
 - 普通类，方法修改类属性还可以添加逻辑
 ```
 class Car():
@@ -196,7 +202,7 @@ class ElecticCar(Car):
 my_tesla = ElecticCar('tesla', 'model s')
 my_tesla.battery.describe_battery
 ```
-#### 文件
+### 文件
 
 - read()到达文件末尾返回一个空字符串，显示为一个空行
 - 每行末尾都有一个看不到的换行符，print又会增加一个换行符
@@ -229,7 +235,7 @@ json.dump(target,file_object)
 json.load(file_object)
 ```
 
-#### 测试
+### 测试
 
 ```
 import unittest
