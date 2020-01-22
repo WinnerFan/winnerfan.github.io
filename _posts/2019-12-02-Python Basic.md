@@ -95,7 +95,6 @@ a = (3,5)
 ### 字典，a={}
 
 - 增删改查
-
 ```
 a['key1'] = 'val1'
 del a['key1']
@@ -104,7 +103,6 @@ a['key1']
 ```
 
 - 遍历
-
 ```
 for key, val in a.items():
 	print(key+": "+val)
