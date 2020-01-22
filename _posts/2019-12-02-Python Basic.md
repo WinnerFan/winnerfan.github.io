@@ -95,13 +95,16 @@ a = (3,5)
 ### 字典，a={}
 
 - 增删改查
+
 ```
 a['key1'] = 'val1'
 del a['key1']
 a['key1'] = 'value1'
 a['key1']
 ```
+
 - 遍历
+
 ```
 for key, val in a.items():
 	print(key+": "+val)
@@ -118,6 +121,7 @@ for val in a.values():
 ### 函数
 
 - 固定参数，具有初始值时调用参数个数可调，副本传递
+
 ```
 \# 默认值为b，不能有空格
 def fun(grade, name='b'):
@@ -131,7 +135,9 @@ person2 = fun('2')
 \# 禁止修改列表时，可以传递列表副本
 fun(a[:])
 ```
+
 - 随机参数
+
 ```
 def user_profile(first, last, **user_info)
 	profile={}
@@ -143,6 +149,7 @@ def user_profile(first, last, **user_info)
 
 user_profile('a','b',location='c',field='d')
 ```
+
 - 导入模块、函数或类
 	- import filename as f<br>
 	  f.function()
@@ -153,6 +160,7 @@ user_profile('a','b',location='c',field='d')
 
 ### 类
 - 普通类，方法修改类属性还可以添加逻辑
+
 ```
 class Car():
 	def __init__(self, make, model)
@@ -169,6 +177,7 @@ class Car():
 my_car = Car('audi','R8')
 my_car.update_odometer(10)
 ```
+
 - 继承，可以重写方法
 
 ```
@@ -186,7 +195,9 @@ def action(self)
 def __init__(self)
 	super().__init__()
 ```
+
 - 实例作为属性，同时引入了方法
+
 ```
 class Battery()
 def __init__(self, battery_size=70):
@@ -206,6 +217,7 @@ my_tesla.battery.describe_battery
 
 - read()到达文件末尾返回一个空字符串，显示为一个空行
 - 每行末尾都有一个看不到的换行符，print又会增加一个换行符
+
 ```
 with open('pi_digits.txt') as file_object:
 	contents = file_object.read()
@@ -215,6 +227,7 @@ with open('pi_digits.txt') as file_object:
 		print(line.rstrip())
 ```
 - open(filename, 'w') r只读(default) w写入 a附加 r+读写
+
 ```
 with open('', 'w') as file_object:
 	file_object.write("write")
@@ -228,7 +241,9 @@ except ZeroDiversionError:
 else:
 	print(answer)
 ```
+
 -json
+
 ```
 import json
 json.dump(target,file_object)
