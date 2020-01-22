@@ -95,26 +95,27 @@ a = (3,5)
 ### 字典，a={}
 
 - 增删改查
+
 ```
 a['key1'] = 'val1'
 del a['key1']
 a['key1'] = 'value1'
 a['key1']
 ```
-
 - 遍历
-```
-for key, val in a.items():
-	print(key+": "+val)
 
-\# sorted(a.keys())排序后
-for key in a.keys():
-	print(key)
-
-\# set(a.values())去重后
-for val in a.values():
-	print(val)
-```
+	```
+	for key, val in a.items():
+		print(key+": "+val)
+	
+	/# sorted(a.keys())排序后
+	for key in a.keys():
+		print(key)
+	
+	# set(a.values())去重后
+	for val in a.values():
+		print(val)
+	```
 
 ### 函数
 
