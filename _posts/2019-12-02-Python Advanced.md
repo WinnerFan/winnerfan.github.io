@@ -1,6 +1,9 @@
-### Python
-
-#### matplotlib
+---
+layout: post
+title: Python Advanced
+tags: Python
+---
+## matplotlib
 
 ```
 import matplotlib.pyplot as plt
@@ -26,7 +29,7 @@ plt.show()
 plt.savefig('squares_plot.png', bbox_inches='tight')
 ```
 
-#### csv
+## csv
 
 ```
 import csv
@@ -44,7 +47,7 @@ with open(filename) as f:
 
 ```
 
-#### json
+## json
 
 ```
 import json

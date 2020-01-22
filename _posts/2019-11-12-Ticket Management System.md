@@ -3,20 +3,17 @@ layout: post
 title: Ticket Management System
 tags: Project
 ---
-## 票券管理系统
-
-### 需求
+## 需求
 
 Redis展示账户统计表和明细表
 
-### 设计
+## 设计
 
 JDK使用Redis，完成增删改查
 
-## Redis
+## 配置
 
-### 配置
-
+Redis配置
 - port：端口
 - logfile：配置日志地址
 - dir：配置工作地址，用于存放DB和Appendonly文件
@@ -24,7 +21,7 @@ JDK使用Redis，完成增删改查
 - masterauth：主从密码，同时修改masterauth_s
 - requirepss：登录密码，同时修改requirepass_s
 
-### 使用
+## 实现
 
 - JedisPoolConfig
     - maxTotal：资源池最大连接数

@@ -3,9 +3,7 @@ layout: post
 title: Python Basic
 tags: Python
 ---
-## Python
-
-### 字符串和数字
+## 字符串和数字
 
 方法|作用|备注
 :-:|:-:|:-:
@@ -29,7 +27,7 @@ tags: Python
 - 字符串输入a = input("msg")，a非msg而是输入的值
 - 命名：**类名驼峰，每个单词首字母大写；实例名和模块名小写格式，下划线连接**
 
-### 列表，a=[]
+## 列表，a=[]
 
 方法|作用|备注
 :-:|:-:|:-:
@@ -54,45 +52,45 @@ and|和|多个条件
 or|或|多个条件
 
 - 循环判断，注意**冒号**
-```
-# 判断非空
-if a:
-	for aloop in a:
-		if aloop == 'aa':
-			print(aloop)
-		elif aloop == 'aaa':
-			print(aloop)
-		else:
-			print('this is not aa or aaa')
-# 另一种循环
-print([val*2 for val in a])
-```
+	```
+	# 判断非空
+	if a:
+		for aloop in a:
+			if aloop == 'aa':
+				print(aloop)
+			elif aloop == 'aaa':
+				print(aloop)
+			else:
+				print('this is not aa or aaa')
+	# 另一种循环
+	print([val*2 for val in a])
+	```
 - 部分列表
-```
-# 索引0-2
-a[0:3]
-# 索引0-4
-a[:5]
-# 索引-2,-1
-a[-2:]
+	```
+	# 索引0-2
+	a[0:3]
+	# 索引0-4
+	a[:5]
+	# 索引-2,-1
+	a[-2:]
 ```
 - 复制列表
-```
-# 深复制
-b = a[:]
-# 浅复制
-b = a
-```
+	```
+	# 深复制
+	b = a[:]
+	# 浅复制
+	b = a
+	```
 - 元组，不能**单独**改变一个值
-```
-a = (1,2)
-# right
-a = (3,5)
-# wrong
-# a[0] = 3
-```
+	```
+	a = (1,2)
+	# right
+	a = (3,5)
+	# wrong
+	# a[0] = 3
+	```
 
-### 字典，a={}
+## 字典，a={}
 
 - 增删改查
 	```
@@ -116,7 +114,7 @@ a = (3,5)
 		print(val)
 	```
 
-### 函数
+## 函数
 
 - 固定参数，具有初始值时调用参数个数可调，副本传递
 	
@@ -155,7 +153,7 @@ a = (3,5)
     - from filename import *<br>
       function()
 
-### 类
+## 类
 - 普通类，方法修改类属性还可以添加逻辑
 
 	```
@@ -209,7 +207,7 @@ a = (3,5)
 	my_tesla = ElecticCar('tesla', 'model s')
 	my_tesla.battery.describe_battery
 	```
-### 文件
+## 文件
 
 - read()到达文件末尾返回一个空字符串，显示为一个空行
 - 每行末尾都有一个看不到的换行符，print又会增加一个换行符
@@ -243,7 +241,7 @@ a = (3,5)
 	json.load(file_object)
 	```
 
-### 测试
+## 测试
 
 ```
 import unittest
