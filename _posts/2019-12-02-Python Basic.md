@@ -95,12 +95,12 @@ a = (3,5)
 ### 字典，a={}
 
 - 增删改查
-```
-a['key1'] = 'val1'
-del a['key1']
-a['key1'] = 'value1'
-a['key1']
-```
+	```
+	a['key1'] = 'val1'
+	del a['key1']
+	a['key1'] = 'value1'
+	a['key1']
+	```
 - 遍历
 
 	```
@@ -135,17 +135,17 @@ a['key1']
 	```
 
 - 随机参数
-```
-def user_profile(first, last, **user_info)
-	profile={}
-	profile['first_name'] = first
-	profile['last_name'] = last
-	for key, val in user_info.items():
-		profile[key] = val
-	return profile
-
-user_profile('a','b',location='c',field='d')
-```
+	```
+	def user_profile(first, last, **user_info)
+		profile={}
+		profile['first_name'] = first
+		profile['last_name'] = last
+		for key, val in user_info.items():
+			profile[key] = val
+		return profile
+	
+	user_profile('a','b',location='c',field='d')
+	```
 
 - 导入模块、函数或类
 	- import filename as f<br>
@@ -194,54 +194,54 @@ user_profile('a','b',location='c',field='d')
 	```
 
 - 实例作为属性，同时引入了方法
-```
-class Battery()
-def __init__(self, battery_size=70):
-	self.battery_size = battery_size
-def descirbe_battery(self)
-	print(str(self.battery_size))
-
-class ElecticCar(Car):
-	def __init__(self, make, model)
-		super().__init__(make, model)
-		self.battery_size = Battery()
-
-my_tesla = ElecticCar('tesla', 'model s')
-my_tesla.battery.describe_battery
-```
+	```
+	class Battery()
+	def __init__(self, battery_size=70):
+		self.battery_size = battery_size
+	def descirbe_battery(self)
+		print(str(self.battery_size))
+	
+	class ElecticCar(Car):
+		def __init__(self, make, model)
+			super().__init__(make, model)
+			self.battery_size = Battery()
+	
+	my_tesla = ElecticCar('tesla', 'model s')
+	my_tesla.battery.describe_battery
+	```
 ### 文件
 
 - read()到达文件末尾返回一个空字符串，显示为一个空行
 - 每行末尾都有一个看不到的换行符，print又会增加一个换行符
-```
-with open('pi_digits.txt') as file_object:
-	contents = file_object.read()
-	print(content.rstrip())
-	
-	for line in file_object:
-		print(line.rstrip())
-```
+	```
+	with open('pi_digits.txt') as file_object:
+		contents = file_object.read()
+		print(content.rstrip())
+		
+		for line in file_object:
+			print(line.rstrip())
+	```
 - open(filename, 'w') r只读(default) w写入 a附加 r+读写
-```
-with open('', 'w') as file_object:
-	file_object.write("write")
-```
+	```
+	with open('', 'w') as file_object:
+		file_object.write("write")
+	```
 - try-except 抛异常，excpt中pass则跳过  
-```
-try:
-	answer = int(first)/int(second)
-except ZeroDiversionError:
-	print("error")
-else:
-	print(answer)
-```
+	```
+	try:
+		answer = int(first)/int(second)
+	except ZeroDiversionError:
+		print("error")
+	else:
+		print(answer)
+	```
 
 -json
-```
-import json
-json.dump(target,file_object)
-json.load(file_object)
-```
+	```
+	import json
+	json.dump(target,file_object)
+	json.load(file_object)
+	```
 
 ### 测试
 
