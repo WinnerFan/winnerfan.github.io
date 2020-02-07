@@ -1,4 +1,8 @@
-# 分布式系统
+---
+layout: post
+title: Distributed System
+tags: Distributed System
+---
 
 ## 特点
 
