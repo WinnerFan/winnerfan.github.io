@@ -49,7 +49,6 @@ tags: Distributed System
 ### ZAB(ZooKeeper Atomic Broadcast)
 
 崩溃恢复和消息广播
-	
 - 消息广播：类似于一个2PC，Leader生成事务Proposal，发给其余机器，再收集选票，最后提交事务，通知Follower提交。移除了中断模式，而是Follower抛弃Leader；过半Ack，即可提交；无法解决Leader崩溃。FIFO，Proposal分配全局单调递增唯一ID(ZXID)，按照循序排序处理
 - 崩溃恢复：Leader崩溃或者Leader与过半Follower失去联系。确保其他机器**提交被Leader提交的事务Proposal，丢弃跳过的事务Proposal**
 	- 为此选举拥有集群中ZXID,myID(服务器)最大的事务Proposal的机器作为Leader。非Observer服务器变为LOOKING，机器向集群其他机器投票(ZXID,myID)；是否是本轮投票、是否来自LOOKING状态机器；修改为(ZXID,myID)大的票重新投票；每次投票判断是否过半机器接受到相同投票；确定Leader，状态为LEADING和FOLLOWING
@@ -66,17 +65,15 @@ tags: Distributed System
 - Leader: 接收到term数大于自身的vote请求，成为Follwer
 
 1. 日志同步
-
-- 客户端发送至Leader，Leader保存uncommitted数据
-- Leader同步数据至Follower，Follower保存uncommitted数据
-- Leader收到确认超过半数，uncommited数据变为committed数据，返回给客户端数据
-- Leader发送请求至Follower，Follower数据由uncommited数据变为committed数据
+    - 客户端发送至Leader，Leader保存uncommitted数据
+    - Leader同步数据至Follower，Follower保存uncommitted数据
+    - Leader收到确认超过半数，uncommited数据变为committed数据，返回给客户端数据
+    - Leader发送请求至Follower，Follower数据由uncommited数据变为committed数据
 
 2. 网络隔离日志同步
-
-- 两个网络合并为一个网络时数据同步问题
-- 第一个网络中Leader有uncommitted数据，第二个网络中Leader全为committed数据
-- 合并网络，数据冲突，第一个网络中Leader降级为Follower，同步为第二个网络中Leader的committed数据
+    - 两个网络合并为一个网络时数据同步问题
+    - 第一个网络中Leader有uncommitted数据，第二个网络中Leader全为committed数据
+    - 合并网络，数据冲突，第一个网络中Leader降级为Follower，同步为第二个网络中Leader的committed数据
 
 
 ## 领域驱动设计模式(Domain Driven Design)
