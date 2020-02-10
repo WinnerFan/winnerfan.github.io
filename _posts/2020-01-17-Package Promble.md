@@ -1,4 +1,8 @@
-# Package Problem
+---
+layout: post
+title: Package Problem
+tags: Algorithm
+---
 
 ## 初始化
 
@@ -27,7 +31,7 @@ N件V容量背包，每件无限
 ```
 f[i][v]=max{f[i-1][v-k*c[i]]+k*w[i]|0<=k*c[i]<=v}
 ```
-第i件最多有V/c/[i/]件，变成V/c/[i/]件价格相同的物品，01背包；上一件或者加选本件
+第i件最多有V/c\[i\]件，变成V/c\[i\]件价格相同的物品，01背包；上一件或者加选本件
 ```
 f[i][v]=max{f[i-1][v],f[i][v-c[i]]+w[i]}
 
@@ -35,12 +39,12 @@ for i 1...N
     for v 0...V
         f[v]=max{f[v],f[v-c[i]]+w[i]}
 ```
-时间复杂度O/(VN/)
+时间复杂度O(VN)
 
 ## 多重背包
 
-N件V容量背包，每件n/[i/]件
+N件V容量背包，每件n\[i\]件
 ```
 f[i][v]=max{f[i-1][v-k*c[i]]+k*w[i]|0<=k<=n[i]}
 ```
-拆分成1，2，4...n/[i/]-2^k+1的01背包，时间复杂度O/(V*Σlog n/[i/]/)
+拆分成1，2，4...n\[i\]-2^k+1的01背包，时间复杂度O(V\*Σlog n\[i\])

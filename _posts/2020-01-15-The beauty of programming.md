@@ -1,4 +1,8 @@
-# The beauty of programming
+---
+layout: post
+title: The Beauty of Programming
+tags: Algorithm
+---
 
 ## CPU占用率输出指定图形
 
@@ -42,7 +46,7 @@ F(x,y,z)=min{F(x-1,y-1,z-1)+3*100*0.85(z>=1)+F(x-1,y-1,z)+2*100*0.9(y>=1)+F(x-1,
 
 ## 饮料供货(DP)
 
-根据满意度，用多种不同容器，提供多种饮料，饮料总量为V(多重背包问题)。多重背包
+根据满意度，用多种不同容器，提供多种饮料，饮料总量为V(多重背包问题)。
 
 ## 电梯调度问题
 
