@@ -11,7 +11,8 @@ tags: Java
 - 静态工厂有**名称**
 - **不必**每次调用**创建新对象**
 - 可以返回原**返回类型的子类对象**
-- 创建参数化类型实例时**简练代码**
+- 返回对象的类根据参数值变化
+- 返回对象的类在静态工厂方法中不存在，用其实现的接口作为返回值 
 
 ```
 Map<String, String> map = new HashMap<String, String>;
@@ -39,9 +40,9 @@ Map<String, String> map = HashMap.newInstance();
 	- ……
 - JavaBeans模式**安全性差**
 	- 无参构造器
-	- setter方法
 	- JavaBeans可能不一致状态，不能成为不可变类（线程安全需要考虑）
 - 构造器模式
+	- Builder类为外部类的静态成员类，Builder可以访问外部类的private带Builder参数的构造方法，用this为参数将Builder中的值赋予外部类private final修饰的属性 
 
 ```
 A a = new A.Builder(1,1).optional1(1).optional2(1).build();
@@ -55,8 +56,8 @@ public class A {
 	pubilc static class Builder {
 		private final int req1;
 		private final int req2;
-		private final int opt1 = 0;
-		private final int opt2 = 0;
+		private int opt1 = 0;
+		private int opt2 = 0;
 
 		public Builder(int req1, int req2){
 			this.req1 = req1;
@@ -99,14 +100,39 @@ public enum Elvis{
 - 私有构造器的防止实例化
 - 私有构造器的类无法子类化
 
+### 依赖注入
+
+- 通过构造器，静态工厂，构建器注入
+- 注入的对象资源不可变
+
 ### 不建立不必要对象
 
-- 比如判断一个人出生是否在1946-1964年，1946和1964年的对象只用创建一次，可以放在static块中，仅仅在类初始化时创建一次实例
+- 对象成本高。比如判断一个人出生是否在1946-1964年，1946和1964年的对象只用创建一次，可以放在static块中，仅仅在类初始化时创建一次实例；String.matches方法会自动创建Pattern对象
 - 优先使用基本类型而非装箱基本类型。
-- 小对象创建和回收动作廉价
+- 适配器针对给定后备对象，不需要创建多个适配器实例
 
 ### 对象引用造成内存泄漏
 
 - Stack类自己管理内存，存储池包含了elements数组的元素
 - 缓存
 - 监听器和其他回调
+
+### try-with-resources优先于try-finally
+
+```
+try{
+    br.readLine();
+}
+finally{
+    br.close();
+}
+```
+close报出的异常抹除了readLine的异常信息，Java7引入AutoCloseable接口
+```
+try(InputStream in = new InputStream(src);
+    OutputStream out = new OutputStream(src)){
+    in.read();
+    out.write();
+}
+```
+自动关闭，保留第一个异常；查看全部异常在Java7接口Throwable中getSuppressed方法
