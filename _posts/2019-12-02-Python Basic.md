@@ -14,6 +14,8 @@ tags: Python
 .lstrip()|去除开头换行、回车、制表符、空格|
 .strip()|去除首尾换行、回车、制表符、空格|
 .split()|换行、回车、制表符、空格分割|
+.split('\|')|以\|分割|反向join
+'\|'.join(['a','b'])|a,b之间以\|分割|反向split
 +|字符串拼接|
 ==|判断相等|区分大小写
 !=|判断不等|区分大小写
@@ -21,13 +23,15 @@ tags: Python
 - 单引号和双引号均可，但不可以和值中冲突
 	- Right: msg = "One of Python's"
 	- Wrong: msg = 'One of Python's'
-- 加、减、乘、除、乘方、余对应+、-、*、/、**、%
+- 加、减、乘、除、乘方、余对应+、-、\*、/、/*/*、%
 - 数字转字符串str(a)
 - 字符串转数字int(a)、float(a)
 - 字符串输入a = input("msg")，a非msg而是输入的值
 - 命名：**类名驼峰，每个单词首字母大写；实例名和模块名小写格式，下划线连接**
+- 四种内置数据结构：列表、元组、字典、集合
 
 ## 列表，a=[]
+有序可变对象集合
 
 方法|作用|备注
 :-:|:-:|:-:
@@ -52,99 +56,118 @@ and|和|多个条件
 or|或|多个条件
 
 - 循环判断，注意**冒号**
-	```
-	# 判断非空
-	if a:
-		for aloop in a:
-			if aloop == 'aa':
-				print(aloop)
-			elif aloop == 'aaa':
-				print(aloop)
-			else:
-				print('this is not aa or aaa')
-	# 另一种循环
-	print([val*2 for val in a])
-	```
+```
+# 判断非空
+if a:
+	for aloop in a:
+		if aloop == 'aa':
+			print(aloop)
+		elif aloop == 'aaa':
+			print(aloop)
+		else:
+			print('this is not aa or aaa')
+# 另一种循环
+print([val*2 for val in a if val < 5])
+```
+
 - 部分列表
-	```
-	# 索引0-2
-	a[0:3]
-	# 索引0-4
-	a[:5]
-	# 索引-2,-1
-	a[-2:]
+```
+# 索引0-2
+a[0:3]
+# 索引0-4
+a[:5]
+# 索引-2,-1
+a[-2:]
 ```
 - 复制列表
-	```
-	# 深复制
-	b = a[:]
-	# 浅复制
-	b = a
-	```
-- 元组，不能**单独**改变一个值
-	```
-	a = (1,2)
-	# right
-	a = (3,5)
-	# wrong
-	# a[0] = 3
-	```
+```
+# 深复制
+b = a[:]
+b = a.copy()
+# 浅复制
+b = a
+```
+## 元组，a = ()
+有序不可变对象集合，不能**单独**改变一个值
+```
+a = (1,2)
+# right
+a = (3,5)
+# wrong
+# a[0] = 3
+```
 
 ## 字典，a={}
-
+无序键值对集合
 - 增删改查
-	```
-	a['key1'] = 'val1'
-	del a['key1']
-	a['key1'] = 'value1'
-	a['key1']
-	```
+```
+a = {'key1': 'val1'}
+a['key1'] = 'val1'
+del a['key1']
+a['key1'] = 'value1'
+a['key1']
+```
 - 遍历
 
-	```
-	for key, val in a.items():
-		print(key+": "+val)
-	
-	# sorted(a.keys())排序后
-	for key in a.keys():
-		print(key)
-	
-	# set(a.values())去重后
-	for val in a.values():
-		print(val)
-	```
+```
+for key, val in a.items():
+	print(key+": "+val)
 
+# sorted(a.keys())排序后
+for key in a.keys():
+	print(key)
+
+# set(a.values())去重后
+for val in a.values():
+	print(val)
+```
+## 集合，a={}
+无序唯一对象集合
+```
+# 等效输出为aei
+a={'a','e','i','i'}
+set('aeii')
+
+# 集合并集
+b=a.union(set('hello'))
+
+# 集合差集
+b=a.difference(set('hello'))
+
+# 集合交集
+b=a.intersection(set('hello'))
+
+# 转化为有序列表
+c=sorted(list(b))
+```
 ## 函数
 
 - 固定参数，具有初始值时调用参数个数可调，副本传递
-	
-	```
-	# 默认值为b，不能有空格
-	def fun(grade, name='b'):
-		print("Hello "+grade+name)
-		person = {'name':name, 'grade':grade}
-		return person
-	# 先列出没有默认值，后列出可选参数即有默认值的
-	person1 = fun('1', 'a')
-	person2 = fun('2')
-	
-	# 禁止修改列表时，可以传递列表副本
-	fun(a[:])
-	```
+```
+# 默认值为b，不能有空格
+def fun(grade, name='b'):
+	print("Hello "+grade+name)
+	person = {'name':name, 'grade':grade}
+	return person
+# 先列出没有默认值，后列出可选参数即有默认值的
+person1 = fun('1', 'a')
+person2 = fun('2')
 
+# 禁止修改列表时，可以传递列表副本
+fun(a[:])
+```
 - 随机参数
-	```
-	def user_profile(first, last, **user_info)
-		profile={}
-		profile['first_name'] = first
-		profile['last_name'] = last
-		for key, val in user_info.items():
-			profile[key] = val
-		return profile
-	
-	user_profile('a','b',location='c',field='d')
-	```
+```
+def user_profile(first, last, **user_info)
+	profile={}
+	profile['first_name'] = first
+	profile['last_name'] = last
+	for key, val in user_info.items():
+		profile[key] = val
+	return profile
 
+user_profile('a','b',location='c',field='d')
+```
 - 导入模块、函数或类
 	- import filename as f<br>
 	  f.function()
@@ -152,94 +175,95 @@ or|或|多个条件
 	  fun()
     - from filename import *<br>
       function()
+- 查看功能
+    shell中dir(random)，显示属性；help(random.randint)，显示帮助
 
 ## 类
 - 普通类，方法修改类属性还可以添加逻辑
+```
+class Car():
+	def __init__(self, make, model)
+		self.make = make
+		self.model = model
+		self.odometer_reading = 0
+	# update中可以添加逻辑
+	def update_odometer(self, mileage)
+		if mileage >= self.odometer_reading:
+			self.odometer_reading = mileage
+	def read_odometer(self)
+		print(str(self.odometer_reading))
 
-	```
-	class Car():
-		def __init__(self, make, model)
-			self.make = make
-			self.model = model
-			self.odometer_reading = 0
-		# update中可以添加逻辑
-		def update_odometer(self, mileage)
-			if mileage >= self.odometer_reading:
-				self.odometer_reading = mileage
-		def read_odometer(self)
-			print(str(self.odometer_reading))
-	
-	my_car = Car('audi','R8')
-	my_car.update_odometer(10)
-	```
+my_car = Car('audi','R8')
+my_car.update_odometer(10)
+```
 
 - 继承，可以重写方法
+```
+class Son(Father):
 
-	```
-	class Son(Father):
-	
-	#子类重写方法
-	def action(self)
-		super().action
-	#子类重写私有方法
-	def __action(self)
-		print("father")
-	def action(self)
-		super()._Father__action()
-	#子类自己定义__init__方法后，访问父类属性需要
-	def __init__(self)
-		super().__init__()
-	```
+#子类重写方法
+def action(self)
+	super().action
+#子类重写私有方法
+def __action(self)
+	print("father")
+def action(self)
+	super()._Father__action()
+#子类自己定义__init__方法后，访问父类属性需要
+def __init__(self)
+	super().__init__()
+```
 
 - 实例作为属性，同时引入了方法
-	```
-	class Battery()
-	def __init__(self, battery_size=70):
-		self.battery_size = battery_size
-	def descirbe_battery(self)
-		print(str(self.battery_size))
-	
-	class ElecticCar(Car):
-		def __init__(self, make, model)
-			super().__init__(make, model)
-			self.battery_size = Battery()
-	
-	my_tesla = ElecticCar('tesla', 'model s')
-	my_tesla.battery.describe_battery
-	```
+```
+class Battery()
+def __init__(self, battery_size=70):
+	self.battery_size = battery_size
+def descirbe_battery(self)
+	print(str(self.battery_size))
+
+class ElecticCar(Car):
+	def __init__(self, make, model)
+		super().__init__(make, model)
+		self.battery_size = Battery()
+
+my_tesla = ElecticCar('tesla', 'model s')
+my_tesla.battery.describe_battery
+```
+
 ## 文件
 
+- 使用with不用close
 - read()到达文件末尾返回一个空字符串，显示为一个空行
 - 每行末尾都有一个看不到的换行符，print又会增加一个换行符
-	```
-	with open('pi_digits.txt') as file_object:
-		contents = file_object.read()
-		print(content.rstrip())
-		
-		for line in file_object:
-			print(line.rstrip())
-	```
-- open(filename, 'w') r只读(default) w写入 a附加 r+读写
-	```
-	with open('', 'w') as file_object:
-		file_object.write("write")
-	```
-- try-except 抛异常，excpt中pass则跳过  
-	```
-	try:
-		answer = int(first)/int(second)
-	except ZeroDiversionError:
-		print("error")
-	else:
-		print(answer)
-	```
+```
+with open('pi_digits.txt') as file_object:
+	contents = file_object.read()
+	print(content.rstrip())
 
+	for line in file_object:
+		print(line.rstrip())
+```
+- open(filename, 'w') r只读(default) w写入 a附加 r+读写
+```
+with open('', 'w') as file_object:
+	file_object.write("write")
+```
+- try-except 抛异常，excpt中pass则跳过  
+```
+try:
+	answer = int(first)/int(second)
+except ZeroDiversionError:
+	print("error")
+else:
+	print(answer)
+```
 -json
-	```
-	import json
-	json.dump(target,file_object)
-	json.load(file_object)
-	```
+```
+import json
+json.dump(target,file_object)
+json.load(file_object)
+```
 
 ## 测试
 
