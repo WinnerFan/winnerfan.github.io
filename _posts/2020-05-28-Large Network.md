@@ -43,7 +43,7 @@ final CountDownLatch countDownLatch = new CountDownLatch(threadNum);
 ```
 - CyclicBarrier：协同多个线程，多个线程等待，直到多个线程都达到屏障，cyclicBarrier.await()数量达到threadNum数。可以循环使用
 - Semaphore：管理信号量，构造传入可供管理的信号量数值，控制并发数量。semaphores.acquire()和semaphore.release()
-- Exchager：两个线程间交换数据，阻塞在exchange方法上，直到另一个线程调用exchange方法
+- Exchanger：两个线程间交换数据，阻塞在exchange方法上，直到另一个线程调用exchange方法
 - Future：调用函数后立马返回，异步调用耗时函数。isDone，get，cancel可能会失败
 
 ### 代理
