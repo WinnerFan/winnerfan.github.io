@@ -162,14 +162,15 @@ global:
 route:
   group_by: ['alertname']    # 分组规则，根据标签配置
   group_wait: 10s            # 第一次等待多久时间发送一组警报的通知
-  group_interval: 10s        # 在发送新警报前的等待时间
-  repeat_interval: 1h        # 重复发送警报的周期
+  group_interval: 10s        # 一组group内最快多久通知一次，firing和resolved共享同一个group
+  repeat_interval: 1h        # 一个相同的报警发送间隔
   receiver: 'web.hook'       # 接收器名字
 receivers:
 - name: 'web.hook'
   webhook_configs:
   - url: 'http://127.0.0.1:5001/alert' # 向xx发送POST请求
 ```
+按照group_interval周期判断发送，当组内报警变化了则立即发送；否则判断是否大于等于repeat_interval，是则发送，否则不发送。例如group_interval=6s，repeat_interval=10s，若报警变化了则6s发送下一个报警，若未变化到第二个周期12s>10s时才发送下一个报警
 ## PromQL
 ```
 sum(a{id="1"} - a{id="1"} offset 1m) by("region", "status")
@@ -183,4 +184,4 @@ sum(a{id="1"} - a{id="1"} offset 1m) by("region", "status")
     - ` (a-b)/b>300 and  (a-b)/(b)<9999`，繁琐
     - `b!=0 and (a-b)/b>300`，完美
 3. `{{$labels.id}}`和`{{$value}}`格式不同
-4. `increase`和`rate`PromQL中只用于Counter类型数据
+4. `increase`和`rate`PromQL中只用于Counter类型数据，Count只支持incr和reset，例如sum(Count)后reset一个Count不能使全部reset，rate出现尖峰

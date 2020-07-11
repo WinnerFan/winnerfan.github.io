@@ -200,7 +200,7 @@ public class Test {
 }
 ```
 
-### 装饰着模式
+### 装饰者模式
 ```
 public abstract class Beverage {
     String description = "Unknown";
@@ -278,3 +278,31 @@ public class NoQuarterState implements State {
 
 ### 代理模式
 为另一个对象提供一个替身或占位符以控制这个对象的访问。例如Icon接口，ImageProxy和ImageIcon实现，分别是代理和实体类。代理中创建实体类的引用，针对实体类是否为null给出**Proxy的处理或调用实体类的方法**
+
+### 工厂模式
+### 简单工厂模式
+```
+public interface Product{...}
+public class ProductA implements Product{...}
+public class ProductB implements Product{...}
+public class Factory{
+    public static Product create(String str){...}
+}
+```
+不符合开放封闭原则，添加产品C，需要修改原来类Factory代码
+### 工厂方法模式
+```
+public interface Factory{createProduct ...}
+public class FactoryA implements Factory{new ProductA ...}
+public class FactoryB implements Factory{new ProductB ...}
+```
+符合开放封闭原则，但是多个产品族，工厂过多
+### 抽象工程模式
+```
+public interface Gift{...}
+public class GiftA implements Gift{...}
+public class GiftB implements Gift{...}
+public interface Factory{createProduct;createGift;...}
+public class FactoryA implements Factory{new ProductA;new GiftA;...}
+public class FactoryB implements Factory{new ProductB;new GiftB;...}
+```
