@@ -7,7 +7,8 @@ tags: Java
 时间类在Java中用法多样，使用中容易陷入误区，本文总结了常用的时间和字符串互转、格式化自定义时间、时间增减和改变时区的推荐用法，并特别提出了在多线程环境下的解决方案，最后根据生产经验总结了一些注意事项。
 
 ##  使用场景
-### 时间转字符串
+### 时间与字符串互转
+1. 时间转字符串
 ```
 public static String getString(String pattern) {
     Date date = new Date();
@@ -23,7 +24,7 @@ public static String getString(String pattern) {
 - mm：分钟
 - ss：秒
 
-### 字符串转时间
+2. 字符串转时间
 ```
 public static Date getDate(String pattern, String str) throws ParseException{
     SimpleDateFormat sf = new SimpleDateFormat(pattern);
@@ -143,7 +144,16 @@ LocalDateTime localDateTime = LocalDateTime.now((ZoneId.of("GMT")));
 System.out.println(formatter.format(localDateTime));
 ```
 
+5. 时间间隔
+```
+LocalDateTime from = LocalDateTime.of(2019,9,30,18,36,30);
+LocalDateTime to = LocalDateTime.of(2020,9,29,18,36,30);
+Duration duration = Duration.between(from, to);
+System.out.println(duration.toDays()+"\t"+duration.toMinutes());
+```
+
 ## 注意事项
+
 ### 不能忽略的yyyy
 SimpleDateFormat和DateTimeFormatter类不论在什么Java版本中年份**不可省略yyyy**。省略后默认年份为1970年，闰年时会受到影响。测试如下
 ```

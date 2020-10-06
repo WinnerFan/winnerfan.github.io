@@ -30,6 +30,10 @@ for i 1...N
 N件V容量背包，每件无限
 ```
 f[i][v]=max{f[i-1][v-k*c[i]]+k*w[i]|0<=k*c[i]<=v}
+
+for i 1...N
+    for v 0...V
+        f[v]=max{f[v],f[v-cost]+weight}
 ```
 第i件最多有V/c\[i\]件，变成V/c\[i\]件价格相同的物品，01背包；上一件或者加选本件
 ```

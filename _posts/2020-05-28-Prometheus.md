@@ -182,6 +182,8 @@ sum(a{id="1"} - a{id="1"} offset 1m) by("region", "status")
 2. expr为`(a-b)/b>300`报警，当`a=1，b=0`时，会得到+Inf的报警错误
     - ` (a-b-1)/(b-1)>300`，注意当`b-1=0`时，仍会报错
     - ` (a-b)/b>300 and  (a-b)/(b)<9999`，繁琐
-    - `b!=0 and (a-b)/b>300`，完美
+    - `(a-b)/b>300 and b!=0`，完美
 3. `{{$labels.id}}`和`{{$value}}`格式不同
 4. `increase`和`rate`PromQL中只用于Counter类型数据，Count只支持incr和reset，例如sum(Count)后reset一个Count不能使全部reset，rate出现尖峰
+5. `increase`和`rate`慎用，是一个估算值，线性外插，即线性推测，推测数据在样本点范围外。例如5s采集一次，即0s，5s等有数据，`[3s, 23s]`查询区间时间与采样点不重合，拿到采样点`{5s:10}`和`{20s:30}`，计算增长率为`20/15`，得到增长值`20/15*20s=26.67`
+6. `{{$value}}`只能获取第一个表达式左边的值
