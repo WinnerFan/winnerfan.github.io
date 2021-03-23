@@ -170,7 +170,7 @@ receivers:
   webhook_configs:
   - url: 'http://127.0.0.1:5001/alert' # 向xx发送POST请求
 ```
-按照group_interval周期判断发送，当组内报警变化了则立即发送；否则判断是否大于等于repeat_interval，是则发送，否则不发送。例如group_interval=6s，repeat_interval=10s，若报警变化了则6s发送下一个报警，若未变化到第二个周期12s>10s时才发送下一个报警
+第一次等待group_wait，后面按照group_interval周期判断发送，当组内报警变化了则立即发送；否则判断是否大于等于repeat_interval，是则发送，否则不发送。例如group_interval=6s，repeat_interval=10s，若报警变化了则6s发送下一个报警，若未变化到第二个周期12s>10s时才发送下一个报警
 ## PromQL
 ```
 sum(a{id="1"} - a{id="1"} offset 1m) by("region", "status")
@@ -187,3 +187,10 @@ sum(a{id="1"} - a{id="1"} offset 1m) by("region", "status")
 4. `increase`和`rate`PromQL中只用于Counter类型数据，Count只支持incr和reset，例如sum(Count)后reset一个Count不能使全部reset，rate出现尖峰
 5. `increase`和`rate`慎用，是一个估算值，线性外插，即线性推测，推测数据在样本点范围外。例如5s采集一次，即0s，5s等有数据，`[3s, 23s]`查询区间时间与采样点不重合，拿到采样点`{5s:10}`和`{20s:30}`，计算增长率为`20/15`，得到增长值`20/15*20s=26.67`
 6. `{{$value}}`只能获取第一个表达式左边的值
+7. Grafana配置监控可以监控，PS与Grafana之间是否通
+8. increase会自动拟合，在label组合比较少的情况下，可以都初始化所有label组合的指标数据为0
+9. increase从零开始增长，0到1会错误，解决方案还是无法处理重启的短时间
+```
+(sum(pay_metrics{pay_way="weixin"} or pay_metrics{pay_way="weixin"}*0) by(payMethod)-
+sum(pay_metrics{pay_way="weixin"} offset 30m or pay_metrics{pay_way="weixin"}*0) by(pay_way))
+```

@@ -291,3 +291,15 @@ unittest.main()
 	- assertFalse(x)
 	- assertIn(a,list)
 	- assertNotIn(a,list)
+
+## 脚本Demo
+1. 定时清理文件脚本
+
+```
+import time
+import commands
+
+while True:
+    commands.getstatusoutput('> /targetFile.log')
+    time.sleep(3600*24)
+```

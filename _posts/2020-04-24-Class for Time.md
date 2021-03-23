@@ -115,6 +115,9 @@ LocalDateTime localDateTime = LocalDateTime.now();
 System.out.println(formatter.format(localDateTime));
 // 字符串转时间
 LocalDateTime localDateTime1 = LocalDateTime.parse("2020-02-29 10:12:05",formatter);
+
+LocalDateTime time = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+Date date = Date.from(time.atZone(ZoneId.systemDefault()));
 ```
 
 2. 格式化自定义时间
@@ -122,6 +125,7 @@ LocalDateTime localDateTime1 = LocalDateTime.parse("2020-02-29 10:12:05",formatt
 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 // 设置自定义时间
 LocalDateTime localDateTime = LocalDateTime.of(2020, 2,29,18,36,30);
+LocalDateTime time = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
 System.out.println(formatter.format(localDateTime));
 ```
 
@@ -149,6 +153,7 @@ System.out.println(formatter.format(localDateTime));
 LocalDateTime from = LocalDateTime.of(2019,9,30,18,36,30);
 LocalDateTime to = LocalDateTime.of(2020,9,29,18,36,30);
 Duration duration = Duration.between(from, to);
+long seconds = ChronoUnit.SECONDS.between(currentDateTime, midnight);
 System.out.println(duration.toDays()+"\t"+duration.toMinutes());
 ```
 
