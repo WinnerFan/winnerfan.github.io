@@ -12,15 +12,15 @@ tags: Java
 
 ### 线程池基础
 #### 区分Executors，ThreadPoolExecutor和ThreadPoolTaskExecutor
-![avatar](/assets/images/2021-02-02-Thread.png) 
+![avatar](../assets/images/2021-02-02-Thread.png) 
 1. Executors
 
 工具类，相当于一个工厂类，实际调用ThreadPoolExecutor创建线程池。
 
-- newSingleThreadExecutor：堆积的请求处理队列占用内存很多
-- newFixedThreadPool：堆积的请求处理队列占用内存很多
-- newCachedThreadPool：线程数无上限
-- newScheduledThreadPool：线程数无上限，延迟或定时任务
+- newSingleThreadExecutor：任务队列LinkedBlockingQueue默认长度为Integer.MAX_VALUE，占用内存
+- newFixedThreadPool：任务队列LinkedBlockingQueue默认长度为Integer.MAX_VALUE，占用内存
+- newCachedThreadPool：最大线程数为Integer.MAX_VALUE，队列为0
+- newScheduledThreadPool：最大线程数为Integer.MAX_VALUE，延迟或定时任务
 
 2. ThreadPoolExecutor
 
@@ -74,40 +74,52 @@ public class ... {
 
 ### @Async
 #### @Async使用
-```
-<task:annotation-driven executor="threadPool"/>
-<task:executor id="threadPool" pool-size="5-10" queue-capacity="10" keep-alive="5" reject-policy="DISCARD_OLDEST"/>
-```
-@Async的默认线程池为SimpleAsyncTaskExecutor，这个类不重用线程，默认每次调用都会创建一个新的线程。
+@Async的默认线程池为SimpleAsyncTaskExecutor，这个类不重用线程，默认每次调用都会创建一个新的线程。所以下面两种未自定义线程池**无法使用**。
 
-- 修饰无返回值方法，异常会被AsyncUncaughtExceptionHandler处理掉，若需要抛出异常，可以手动new一个异常抛出
-- 修饰有返回值方法，返回值是Future，不会被捕获，需要`try-catch`处理异常
+1. 注解方式@EnableAsync
+2. xml方式，Springboot中使用`@ImportResource(locations= {"classpath:static/spring.xml,..."})`引入xml
+```xml
+<task:annotation-driven/>
+```
 
 #### @Async自定义线程池
 
-1. 重新实现AsyncConfigurer接口，有且只有一个
-```
+- 指定的为最高优先级
+```java
 @Component
 public class Task {
-    @Async("taskExecutor")
+    @Async("myExecutor")
     public void doSomething() {
         ...
     }
 }
 ```
 
+- AsyncConfigurer的默认线程池在源码中为空，否则作为默认线程池
+- 其次，Spring通过beanFactory.getBean(TaskExecutor.class)查看是否有线程池，可以不指定线程池名称
 ```
+ThreadPoolTaskExecutor->SchedulingTaskExecutor->AsyncTaskExecutor->TaskExecutor
+```
+
+- 最后，通过beanFactory.getBean(DEFAULT_TASK_EXECUTOR_BEAN_NAME, Executor.class)，查询名称为taskExecutor的线程池
+```
+ThreadPoolExecutorAdapter->ThreadPoolExecutor->AbstractExecutorService->ExecutorService->Executor
+```
+
+1. 重新实现AsyncConfigurer接口，有且只有一个
+
+```java
 @EnableAsync
 @Configuration
 public class MyConfigurer implements AsyncConfigurer {
-    @Bean("taskExecutor")
+    @Bean("myExecutor")
     public Executor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(10);
         executor.setMaxPoolSize(20);
         executor.setQueueCapacity(200);
         executor.setKeepAliveSeconds(60);
-        executor.setThreadNamePrefix("taskExecutor-");
+        executor.setThreadNamePrefix("myExecutor-");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
         return executor;
@@ -123,19 +135,22 @@ public class MyConfigurer implements AsyncConfigurer {
 }
 ```
 2. 修改XML
-```
+```xml
 <task:annotation-driven executor="threadPool"/>
-<bean id="threadPool"  class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"/>
+方式一
+<bean id="threadPool"  class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
   <property name="corePoolSize" value="5"/>
   ...
   <property name="rejectedExecutionHandler">
     <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
   </property>
 </bean>
+方式二
+<task:executor id="threadPool" pool-size="5-10" queue-capacity="10" keep-alive="5" rejection-policy="DISCARD_OLDEST"/>
 ```
 
 3. 继承AsyncConfigurerSupport
-```
+```java
 @EnableAsync
 @Configuration
 class SpringAsyncConfigurer extends AsyncConfigurerSupport {  
@@ -160,11 +175,7 @@ class SpringAsyncConfigurer extends AsyncConfigurerSupport {
 
 4. 配置自定义的TaskExecutor
 
-- AsyncConfigurer的默认线程池在源码中为空
-- Spring通过beanFactory.getBean(TaskExecutor.class)查看是否有线程池
-- 未配置时，通过beanFactory.getBean(DEFAULT_TASK_EXECUTOR_BEAN_NAME, Executor.class)，查询名称为TaskExecutor的线程池
-
-```
+```java
 @EnableAsync
 @Configuration
 class TaskPoolConfig {  
@@ -175,3 +186,44 @@ class TaskPoolConfig {
         return threadPool;  
     }  
 ```
+#### @Async调用
+1. 异步方法无返回值
+2. 异步方法有返回值
+
+```java
+    @GetMapping("/test")
+    public String test() throws Exception{
+        LOGGER.info("aaa");
+        Future<String> future = demoService.test();
+        LOGGER.info("bbb");
+        LOGGER.info(future.get()); //会阻塞住
+        LOGGER.info("ccc");
+        return "aaa";
+    }
+    
+    @Async
+    public Future<String> test() throws Exception{
+        Thread.sleep(3000);
+        Future<String> future = new AsyncResult<>("future");
+        LOGGER.info("async");
+        return future;
+    }
+```
+
+#### @Async捕获异常
+1. 返回值为void，异步方法中捕获异常处理或者`AsyncConfigurer`接口中`AsyncUncaughtExceptionHandler`处理异常
+
+```java
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        LOGGER.info("empty error"); // 应用线程池
+        return new MyAsyncExceptionHandler();
+    }
+    // 内部类
+    class MyAsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
+        @Override
+        public void handleUncaughtException(Throwable throwable, Method method, Object... objects) {
+            LOGGER.info(throwable.getMessage());
+        }
+    }
+```
+2. 返回值为Future，异步方法中捕获异常或者Future.get捕获异常
